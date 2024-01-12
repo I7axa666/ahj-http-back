@@ -1,0 +1,47 @@
+{
+  "name": "back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "start": "forever server.js",
+    "watch": "forever -w server.js",
+    "lint": "eslint .",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/I7axa666/ahj-http-back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/I7axa666/ahj-http-back/issues"
+  },
+  "homepage": "https://github.com/I7axa666/ahj-http-back#readme",
+  "dependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.7",
+    "core-js": "^3.35.0",
+    "http": "^0.0.1-security",
+    "jest": "^29.7.0",
+    "jest-babel": "^1.0.1",
+    "koa": "^2.15.0",
+    "koa-body": "^6.0.1",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "devDependencies": {
+    "babel-loader": "^9.1.3",
+    "css-loader": "^6.8.1",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "forever": "^4.0.3",
+    "html-webpack-plugin": "^5.6.0",
+    "mini-css-extract-plugin": "^2.7.6",
+    "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.10.0"
+  }
+}
