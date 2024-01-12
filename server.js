@@ -1,8 +1,9 @@
-import Tickets from './ticketClass.js';
+// import Tickets from './ticketClass.js';
 
 const http = require('http');
 const Koa = require('koa');
 const { koaBody } = require('koa-body');
+
 const port = 7070;
 
 const app = new Koa();
@@ -10,23 +11,21 @@ const app = new Koa();
 // const subscriptions = [{name: 'dusty', phone: '79056001616'}];
 // const tickets = new Tickets();
 
-
 app.use(koaBody({
-    urlencoded: true,
+  urlencoded: true,
 }));
 
 app.use((ctx, next) => {
-    if (ctx.request.method !== 'OPTIONS') {
-        next();
-        return;
-    }
+  if (ctx.request.method !== 'OPTIONS') {
+    next();
+    return;
+  }
 
-    ctx.response.set('Access-Control-Allow-Origin', '*');
+  ctx.response.set('Access-Control-Allow-Origin', '*');
 
-    ctx.response.set('Access-Control-Allow-Methods', 'DELETE, PUSH, PUT, PATCH, GET, POST');
+  ctx.response.set('Access-Control-Allow-Methods', 'DELETE, PUSH, PUT, PATCH, GET, POST');
 
-    ctx.response.status = 204;
-
+  ctx.response.status = 204;
 });
 
 // app.use((ctx, next) => {
@@ -46,10 +45,10 @@ app.use((ctx, next) => {
 //         ctx.response.body = 'subscription doesn\'t exist';
 
 //         return
-//     } 
-    
+//     }
+
 //     tickets.find().filter(sub => sub.phone !== phone);
-    
+
 //     ctx.response.body = 'OK';
 
 //     next();
@@ -70,10 +69,10 @@ app.use((ctx, next) => {
 
 //         ctx.response.body = 'subscription exist';
 //         return;
-//     } 
-    
+//     }
+
 //     tickets.find().push({ name, phone });
-    
+
 //     ctx.response.body = 'OK';
 
 //     next();
@@ -94,10 +93,10 @@ app.use((ctx, next) => {
 
 //         ctx.response.body = 'subscription exist';
 //         return;
-//     } 
-    
+//     }
+
 //     tickets.find().push({ name, phone });
-    
+
 //     ctx.response.body = 'OK';
 
 //     next();
@@ -105,14 +104,12 @@ app.use((ctx, next) => {
 
 const server = http.createServer(app.callback());
 
-
-
 server.listen(port, (err) => {
-    if (err) {
-        console.log(err);
+  if (err) {
+    console.log(err);
 
-        return;
-    }
+    return;
+  }
 
-    console.log('Server is listening ' + port)
+  console.log(`Server is listening ${port}`);
 });
