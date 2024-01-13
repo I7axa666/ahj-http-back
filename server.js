@@ -1,115 +1,64 @@
-// import Tickets from './ticketClass.js';
-
-const http = require('http');
 const Koa = require('koa');
+const Router = require('koa-router');
+const cors = require('@koa/cors');
 const { koaBody } = require('koa-body');
-
-const port = 7070;
+const { TicketList } = require('./src/ticketClass');
 
 const app = new Koa();
+const router = new Router();
 
-// const subscriptions = [{name: 'dusty', phone: '79056001616'}];
-// const tickets = new Tickets();
+const ticketList = new TicketList();
 
-app.use(koaBody({
-  urlencoded: true,
-}));
+app.use(cors());
+app.use(koaBody());
+app.use(router.routes());
+app.use(router.allowedMethods());
 
-app.use((ctx, next) => {
-  if (ctx.request.method !== 'OPTIONS') {
-    next();
-    return;
+router.get('/', (ctx) => {
+  switch (ctx.request.query.method) {
+    case 'allTickets':
+      ctx.body = ticketList.getAllTickets();
+      break;
+
+    case 'ticketById': {
+      const { id } = ctx.request.query;
+      ctx.body = ticketList.getTicketById(id);
+      break;
+    }
+
+    default:
+      ctx.throw(404, 'oh, not found');
   }
-
-  ctx.response.set('Access-Control-Allow-Origin', '*');
-
-  ctx.response.set('Access-Control-Allow-Methods', 'DELETE, PUSH, PUT, PATCH, GET, POST');
-
-  ctx.response.status = 204;
 });
 
-// app.use((ctx, next) => {
-//     if (ctx.request.method !== 'DELETE') {
-//         next();
-//         return;
-//     }
+router.post('/', (ctx) => {
+  switch (ctx.request.query.method) {
+    case 'createTicket': {
+      const { name } = ctx.request.body;
+      const { description } = ctx.request.body;
+      ticketList.createTicket(name, description);
+      ctx.body = ticketList.getAllTickets();
+      break;
+    }
 
-//     ctx.response.set('Access-Control-Allow-Origin', '*');
+    case 'updateTicket': {
+      const { id } = ctx.request.body;
+      ctx.body = ticketList.getTicketById(id);
+      break;
+    }
 
-//     const { phone } = ctx.request.query;
-//     console.log(ctx.request.query.phone);
-
-//     if (tickets.ticketsList.every(sub => sub.phone !== phone)) {
-//         ctx.response.status = 400;
-
-//         ctx.response.body = 'subscription doesn\'t exist';
-
-//         return
-//     }
-
-//     tickets.find().filter(sub => sub.phone !== phone);
-
-//     ctx.response.body = 'OK';
-
-//     next();
-// });
-
-// app.use((ctx, next) => {
-//     if (ctx.request.method !== 'POST') {
-//         next();
-//         return;
-//     }
-
-//     ctx.response.set('Access-Control-Allow-Origin', '*');
-
-//     const { name, phone } = ctx.request.body;
-
-//     if (tickets.find().some(sub => sub.phone === phone)) {
-//         ctx.response.status = 400;
-
-//         ctx.response.body = 'subscription exist';
-//         return;
-//     }
-
-//     tickets.find().push({ name, phone });
-
-//     ctx.response.body = 'OK';
-
-//     next();
-// });
-
-// app.use((ctx, next) => {
-//     if (ctx.request.method !== 'GET') {
-//         next();
-//         return;
-//     }
-
-//     ctx.response.set('Access-Control-Allow-Origin', '*');
-
-//     const { name, phone } = ctx.request.body;
-
-//     if (tickets.find().some(sub => sub.phone === phone)) {
-//         ctx.response.status = 400;
-
-//         ctx.response.body = 'subscription exist';
-//         return;
-//     }
-
-//     tickets.find().push({ name, phone });
-
-//     ctx.response.body = 'OK';
-
-//     next();
-// });
-
-const server = http.createServer(app.callback());
-
-server.listen(port, (err) => {
-  if (err) {
-    console.log(err);
-
-    return;
+    default:
+      ctx.throw(404, 'oh, not found');
   }
+});
 
-  console.log(`Server is listening ${port}`);
+router.delete('/', (ctx) => {
+  const { id } = ctx.request.query;
+  ticketList.delete(id);
+  ctx.body = ticketList.getAllTickets();
+});
+
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
