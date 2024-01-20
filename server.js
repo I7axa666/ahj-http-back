@@ -22,7 +22,7 @@ router.get('/', (ctx) => {
 
     case 'ticketById': {
       const { id } = ctx.request.query;
-      ctx.body = ticketList.getTicketById(id);
+      ctx.body = JSON.stringify(ticketList.getTicketById(id));
       break;
     }
 
@@ -43,6 +43,8 @@ router.post('/', (ctx) => {
 
     case 'updateTicket': {
       const { id } = ctx.request.body;
+      console.log(ctx.request.body);
+      ticketList.updateTicket(ctx.request.body);
       ctx.body = ticketList.getTicketById(id);
       break;
     }

@@ -2,14 +2,9 @@ const { v4: uuidv4 } = require('uuid');
 
 class TicketList {
   constructor() {
-    this.tickets = [
-      {
-        id: '1', name: 'Task1', description: 'Description of Task1', status: true, created: '2024-01-13',
-      },
-      {
-        id: '2', name: 'Task2', description: 'Description of Task2', status: false, created: '2024-01-13',
-      },
-    ];
+    this.tickets = [];
+
+    this.getCurrentDate = this.getCurrentDate.bind(this);
   }
 
   getAllTickets() {
@@ -30,20 +25,29 @@ class TicketList {
       name,
       description,
       status: false,
-      created: new Date(),
+      created: this.getCurrentDate(),
     });
   }
 
   updateTicket(newTicket) {
     const { id } = newTicket;
     const ticketIndex = this.tickets.indexOf(this.tickets.find((ticket) => ticket.id === id));
-
     this.tickets[ticketIndex] = newTicket;
   }
 
   delete(id) {
     this.tickets = this.tickets.filter((ticket) => ticket.id !== id);
   }
+
+  getCurrentDate() {
+    const date = new Date();
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}.${month}.${year}`;
+  }
+  
 }
 
 module.exports = { TicketList };
