@@ -3,7 +3,6 @@ const { v4: uuidv4 } = require('uuid');
 class TicketList {
   constructor() {
     this.tickets = [];
-    this.getCurrentDate = this.getCurrentDate.bind(this);
   }
 
   getAllTickets() {
