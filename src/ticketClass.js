@@ -3,7 +3,6 @@ const { v4: uuidv4 } = require('uuid');
 class TicketList {
   constructor() {
     this.tickets = [];
-
     this.getCurrentDate = this.getCurrentDate.bind(this);
   }
 
@@ -39,7 +38,7 @@ class TicketList {
     this.tickets = this.tickets.filter((ticket) => ticket.id !== id);
   }
 
-  getCurrentDate() {
+  static getCurrentDate() {
     const date = new Date();
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -47,7 +46,6 @@ class TicketList {
 
     return `${day}.${month}.${year}`;
   }
-  
 }
 
 module.exports = { TicketList };
