@@ -23,7 +23,7 @@ class TicketList {
       name,
       description,
       status: false,
-      created: this.getCurrentDate(),
+      created: TicketList.getCurrentDate(),
     });
   }
 
